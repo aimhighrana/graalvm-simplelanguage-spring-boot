@@ -1,0 +1,6 @@
+com.oracle.truffle.sl.test.SLInstrumentTestEarlyReturnInstrumentProvider
+com.oracle.truffle.sl.test.SLInstrumentTestEnvironmentHandlerInstrumentProvider
+com.oracle.truffle.sl.test.SLInstrumentTestIncreaseArgOnErrorInstrumentProvider
+com.oracle.truffle.sl.test.SLInstrumentTestNewReplacedInstrumentProvider
+com.oracle.truffle.sl.test.SLInstrumentTestTestRedoIOProvider
+com.oracle.truffle.sl.test.SLSharedCodeSeparatedEnvTestCaptureOutputProvider
