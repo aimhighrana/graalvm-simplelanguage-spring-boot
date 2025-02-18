@@ -1,5 +1,9 @@
 function checkAmIString(value) {
     str = java("org.springframework.util.StringUtils");
+
+    // sleep for 5 seconds
+    java("java.lang.Thread").sleep(5000);
+
     return str.hasText(value);
 }
 

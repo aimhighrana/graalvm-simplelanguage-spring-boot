@@ -80,20 +80,6 @@ final class SLObjectGen {
             }
 
             @Override
-            public boolean hasLanguage(Object receiver) {
-                assert receiver instanceof SLObject : "Invalid library usage. Library does not accept given receiver.";
-                assert assertAdopted();
-                return (((SLObject) receiver)).hasLanguage();
-            }
-
-            @Override
-            public Class<? extends TruffleLanguage<?>> getLanguage(Object receiver) throws UnsupportedMessageException {
-                assert receiver instanceof SLObject : "Invalid library usage. Library does not accept given receiver.";
-                assert assertAdopted();
-                return (((SLObject) receiver)).getLanguage();
-            }
-
-            @Override
             protected TriState isIdenticalOrUndefined(Object arg0Value_, Object arg1Value) {
                 assert arg0Value_ instanceof SLObject : "Invalid library usage. Library does not accept given receiver.";
                 assert assertAdopted();
@@ -136,6 +122,20 @@ final class SLObjectGen {
                     }
                 }
                 return NodeCost.POLYMORPHIC;
+            }
+
+            @Override
+            public boolean hasLanguage(Object receiver) {
+                assert receiver instanceof SLObject : "Invalid library usage. Library does not accept given receiver.";
+                assert assertAdopted();
+                return (((SLObject) receiver)).hasLanguage();
+            }
+
+            @Override
+            public Class<? extends TruffleLanguage<?>> getLanguage(Object receiver) throws UnsupportedMessageException {
+                assert receiver instanceof SLObject : "Invalid library usage. Library does not accept given receiver.";
+                assert assertAdopted();
+                return (((SLObject) receiver)).getLanguage();
             }
 
             @Override
@@ -419,6 +419,19 @@ final class SLObjectGen {
 
             @TruffleBoundary
             @Override
+            public TriState isIdenticalOrUndefined(Object arg0Value_, Object arg1Value) {
+                // declared: true
+                assert this.accepts(arg0Value_) : "Invalid library usage. Library does not accept given receiver.";
+                SLObject arg0Value = ((SLObject) arg0Value_);
+                if (arg1Value instanceof SLObject) {
+                    SLObject arg1Value_ = (SLObject) arg1Value;
+                    return IsIdenticalOrUndefined.doSLObject(arg0Value, arg1Value_);
+                }
+                return IsIdenticalOrUndefined.doOther(arg0Value, arg1Value);
+            }
+
+            @TruffleBoundary
+            @Override
             public boolean hasLanguage(Object receiver) {
                 // declared: true
                 assert this.accepts(receiver) : "Invalid library usage. Library does not accept given receiver.";
@@ -431,19 +444,6 @@ final class SLObjectGen {
                 // declared: true
                 assert this.accepts(receiver) : "Invalid library usage. Library does not accept given receiver.";
                 return ((SLObject) receiver) .getLanguage();
-            }
-
-            @TruffleBoundary
-            @Override
-            public TriState isIdenticalOrUndefined(Object arg0Value_, Object arg1Value) {
-                // declared: true
-                assert this.accepts(arg0Value_) : "Invalid library usage. Library does not accept given receiver.";
-                SLObject arg0Value = ((SLObject) arg0Value_);
-                if (arg1Value instanceof SLObject) {
-                    SLObject arg1Value_ = (SLObject) arg1Value;
-                    return IsIdenticalOrUndefined.doSLObject(arg0Value, arg1Value_);
-                }
-                return IsIdenticalOrUndefined.doOther(arg0Value, arg1Value);
             }
 
             @TruffleBoundary

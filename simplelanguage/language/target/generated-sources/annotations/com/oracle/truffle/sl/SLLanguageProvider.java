@@ -27,6 +27,11 @@ import java.util.List;
 public final class SLLanguageProvider implements Provider {
 
     @Override
+    public String getLanguageClassName() {
+        return "com.oracle.truffle.sl.SLLanguage";
+    }
+
+    @Override
     public TruffleLanguage<?> create() {
         return new SLLanguage();
     }
@@ -34,11 +39,6 @@ public final class SLLanguageProvider implements Provider {
     @Override
     public List<FileTypeDetector> createFileTypeDetectors() {
         return Arrays.asList(new SLFileDetector());
-    }
-
-    @Override
-    public String getLanguageClassName() {
-        return "com.oracle.truffle.sl.SLLanguage";
     }
 
     @Override

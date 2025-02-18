@@ -97,6 +97,7 @@ public class SLRootNode extends RootNode {
     @Override
     public Object execute(VirtualFrame frame) {
         assert SLContext.get(this) != null;
+        SLLanguage.get(this).checkTimeout();
         return bodyNode.executeGeneric(frame);
     }
 

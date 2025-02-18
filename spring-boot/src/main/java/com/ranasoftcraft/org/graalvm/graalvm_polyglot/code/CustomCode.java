@@ -12,6 +12,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Configuration @Slf4j
 public class CustomCode {
@@ -28,12 +29,15 @@ public class CustomCode {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         
-        try (Context context = Context.newBuilder()
+        try (Context context = Context.newBuilder("sl")
                 .allowPolyglotAccess(PolyglotAccess.ALL)
                 .allowHostClassLookup(cls -> true)
                 .allowHostAccess(HostAccess.ALL)
                 .allowHostClassLoading(true)
-                .out(printStream)  // Redirect stdout to our custom stream
+//                .option("sl.interruptible", "true")
+//                .option("sl.InternalExecutionTime", "2000")
+                .option("sl.ScriptTimeout", "20000")  // 20 seconds timeout
+                .out(printStream)
                 .build()) {
 
             String actualCode = asString(code);
@@ -43,7 +47,15 @@ public class CustomCode {
                     .interactive(Boolean.TRUE)
                     .build();
 
-            org.graalvm.polyglot.Value value = context.eval(source);
+            try {
+                context.eval(source);
+            } catch (PolyglotException e) {
+                if (e.isCancelled()) {
+                    log.error("Script execution timed out");
+                    throw new IOException("Script execution timed out");
+                }
+                throw e;
+            }
             
             // Capture and log all println output
             String output = outputStream.toString(StandardCharsets.UTF_8);
@@ -63,17 +75,19 @@ public class CustomCode {
         return new ArrayList<>(capturedLogs);
     }
 
-
-    public boolean executeMe(String jsCode) throws IOException {
+    public boolean executeMe(String jsCode) throws IOException, TimeoutException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
-        
-        try (Context context = Context.newBuilder()
+
+        try (Context context = Context.newBuilder("sl")
                 .allowPolyglotAccess(PolyglotAccess.ALL)
                 .allowHostClassLookup(cls -> true)
                 .allowHostAccess(HostAccess.ALL)
                 .allowHostClassLoading(true)
-                .out(printStream)  // Redirect stdout to our custom stream
+//                .option("sl.interruptible", "true")
+//                .option("sl.InternalExecutionTime", "2000")
+                .option("sl.ScriptTimeout", "5000")  // 5 seconds timeout
+                .out(printStream)
                 .build()) {
 
             Source source = Source
@@ -81,8 +95,16 @@ public class CustomCode {
                     .interactive(Boolean.TRUE)
                     .build();
 
-            context.eval(source);
-            
+            try {
+                context.eval(source);
+            } catch (PolyglotException e) {
+                if (e.isCancelled()) {
+                    log.error("Script execution timed out");
+                    throw new TimeoutException("Script execution timed out");
+                }
+                throw e;
+            }
+
             // Capture and log all println output
             String output = outputStream.toString(StandardCharsets.UTF_8);
             String[] lines = output.split("\n");
@@ -92,8 +114,11 @@ public class CustomCode {
                     capturedLogs.add(line.trim());
                 }
             }
-            
+
             return Boolean.TRUE;
+        } catch (Exception e) {
+            log.error("Error during script execution", e);
+            throw e;
         }
     }
 
