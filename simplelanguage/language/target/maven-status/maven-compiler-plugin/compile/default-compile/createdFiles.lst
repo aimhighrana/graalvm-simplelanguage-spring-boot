@@ -35,10 +35,12 @@ com/oracle/truffle/sl/runtime/SLType$IsMetaInstance.class
 com/oracle/truffle/sl/nodes/expression/SLStringLiteralNode.class
 com/oracle/truffle/sl/nodes/expression/SLDivNode.class
 com/oracle/truffle/sl/runtime/SLTypeGen$InteropLibraryExports.class
+com/oracle/truffle/sl/runtime/SLTimeoutExceptionGen$InteropLibraryExports$Cached.class
 com/oracle/truffle/sl/runtime/SLObjectGen.class
 com/oracle/truffle/sl/builtins/SLAddToHostClassPathBuiltin.class
 com/oracle/truffle/sl/builtins/SLWrapPrimitiveBuiltin.class
 com/oracle/truffle/sl/nodes/interop/ReadDescriptorGen$InteropLibraryExports$Uncached.class
+com/oracle/truffle/sl/runtime/SLTimeoutExceptionGen$InteropLibraryExports.class
 com/oracle/truffle/sl/nodes/expression/SLAddNode.class
 com/oracle/truffle/sl/parser/SLParseErrorGen$1.class
 com/oracle/truffle/sl/runtime/SLLanguageView.class
@@ -137,6 +139,7 @@ com/oracle/truffle/sl/parser/SimpleLanguageParser$ArithmeticContext.class
 com/oracle/truffle/sl/nodes/util/SLUnboxNodeGen.class
 com/oracle/truffle/sl/runtime/SLFunctionRegistry$1.class
 com/oracle/truffle/sl/nodes/controlflow/SLFunctionBodyNode.class
+com/oracle/truffle/sl/runtime/SLTimeoutException.class
 com/oracle/truffle/sl/runtime/FunctionNamesObjectGen$1.class
 com/oracle/truffle/sl/nodes/local/ArgumentsObjectGen$InteropLibraryExports.class
 com/oracle/truffle/sl/builtins/SLImportBuiltinFactory.class
@@ -195,6 +198,7 @@ com/oracle/truffle/sl/builtins/SLIsInstanceBuiltinFactory$SLIsInstanceBuiltinNod
 com/oracle/truffle/sl/nodes/local/SLScopedNode$VariablesObject$WriteMember.class
 com/oracle/truffle/sl/builtins/SLEvalBuiltinFactory$1.class
 com/oracle/truffle/sl/nodes/interop/ReadDescriptorGen$1.class
+com/oracle/truffle/sl/runtime/SLTimeoutExceptionGen$InteropLibraryExports$Uncached.class
 com/oracle/truffle/sl/builtins/SLStackTraceBuiltinFactory$1.class
 com/oracle/truffle/sl/nodes/SLExpressionNodeWrapper.class
 com/oracle/truffle/sl/nodes/local/KeysArrayGen.class
@@ -247,6 +251,7 @@ com/oracle/truffle/sl/nodes/expression/SLWritePropertyNodeGen$WriteSLObject0Data
 com/oracle/truffle/sl/builtins/SLIsInstanceBuiltinFactory.class
 com/oracle/truffle/sl/nodes/util/SLToMemberNodeGen$Uncached.class
 com/oracle/truffle/sl/nodes/interop/NodeObjectDescriptorKeysGen$InteropLibraryExports$Cached.class
+com/oracle/truffle/sl/runtime/SLTimeoutHandler.class
 com/oracle/truffle/sl/runtime/SLFunction$Execute.class
 com/oracle/truffle/sl/nodes/expression/SLMulNodeGen.class
 com/oracle/truffle/sl/SLFileDetector.class
@@ -308,6 +313,7 @@ com/oracle/truffle/sl/builtins/SLWrapPrimitiveBuiltinFactory.class
 com/oracle/truffle/sl/builtins/SLIsExecutableBuiltinFactory$SLIsExecutableBuiltinNodeGen.class
 com/oracle/truffle/sl/builtins/SLExitBuiltin.class
 com/oracle/truffle/sl/nodes/expression/SLReadPropertyNodeGen$ReadSLObject0Data.class
+com/oracle/truffle/sl/runtime/SLTimeoutExceptionGen.class
 com/oracle/truffle/sl/nodes/interop/ReadDescriptorGen$InteropLibraryExports.class
 com/oracle/truffle/sl/builtins/SLNanoTimeBuiltinFactory$SLNanoTimeBuiltinNodeGen.class
 com/oracle/truffle/sl/nodes/interop/NodeObjectDescriptor$ReadDescriptor.class
@@ -328,6 +334,7 @@ com/oracle/truffle/sl/parser/SimpleLanguageParser$SimplelanguageContext.class
 com/oracle/truffle/sl/parser/SLParseErrorGen$InteropLibraryExports$Uncached.class
 com/oracle/truffle/sl/nodes/local/SLScopedNode$VariablesObject.class
 com/oracle/truffle/sl/builtins/SLTypeOfBuiltinFactory.class
+com/oracle/truffle/sl/runtime/SLTimeoutExceptionGen$1.class
 com/oracle/truffle/sl/runtime/SLNullGen$1.class
 com/oracle/truffle/sl/builtins/SLNewObjectBuiltin.class
 com/oracle/truffle/sl/nodes/local/VariablesObjectGen$InteropLibraryExports$Cached$GetMembersNode_GetMembersData.class

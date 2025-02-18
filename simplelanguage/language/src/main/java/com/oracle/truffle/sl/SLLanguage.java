@@ -114,6 +114,8 @@ import com.oracle.truffle.sl.runtime.SLLanguageView;
 import com.oracle.truffle.sl.runtime.SLNull;
 import com.oracle.truffle.sl.runtime.SLObject;
 import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.SLTimeoutHandler;
+import org.graalvm.options.OptionDescriptors;
 
 /**
  * SL is a simple language to demonstrate and showcase features of Truffle. The implementation is as
@@ -215,14 +217,17 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
     private final Map<TruffleString, RootCallTarget> undefinedFunctions = new ConcurrentHashMap<>();
 
     private final Shape rootShape;
+    private SLTimeoutHandler timeoutHandler;
 
     public SLLanguage() {
         counter++;
         this.rootShape = Shape.newBuilder().layout(SLObject.class).build();
+        this.timeoutHandler = null; // Will be initialized in createContext
     }
 
     @Override
     protected SLContext createContext(Env env) {
+        timeoutHandler = new SLTimeoutHandler(env);
         return new SLContext(this, env, new ArrayList<>(EXTERNAL_BUILTINS));
     }
 
@@ -301,7 +306,21 @@ public final class SLLanguage extends TruffleLanguage<SLContext> {
     }
 
     @Override
+    protected OptionDescriptors getOptionDescriptors() {
+        return SLTimeoutHandler.createOptionDescriptors();
+    }
+
+    public void checkTimeout() {
+        if (timeoutHandler != null) {
+            timeoutHandler.checkTimeout();
+        }
+    }
+
+    @Override
     protected CallTarget parse(ParsingRequest request) throws Exception {
+        if (timeoutHandler != null) {
+            timeoutHandler.start();
+        }
         Source source = request.getSource();
         Map<TruffleString, RootCallTarget> functions;
         /*

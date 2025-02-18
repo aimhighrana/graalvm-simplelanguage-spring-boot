@@ -47,6 +47,7 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.RepeatingNode;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.api.profiles.BranchProfile;
+import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
 import com.oracle.truffle.sl.nodes.util.SLUnboxNodeGen;
@@ -83,6 +84,8 @@ public final class SLWhileRepeatingNode extends Node implements RepeatingNode {
 
     @Override
     public boolean executeRepeating(VirtualFrame frame) {
+        SLLanguage.get(this).checkTimeout();
+        
         if (!evaluateCondition(frame)) {
             /* Normal exit of the loop when loop condition is false. */
             return false;

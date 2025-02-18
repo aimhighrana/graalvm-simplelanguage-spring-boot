@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.concurrent.TimeoutException;
 
 @RestController @RequiredArgsConstructor
 public class Controller {
@@ -17,7 +18,13 @@ public class Controller {
 
     @PostMapping("/execute-me")
     public ResponseEntity<?> executeMe(@RequestBody String code) throws IOException {
-        customCode.executeMe(code);
-        return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("status","Executed"));
+        try {
+            customCode.executeMe(code);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Collections.singletonMap("status", "Executed"));
+        } catch (TimeoutException e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT)
+                    .body(Collections.singletonMap("error", "Script execution timed out after 2 seconds"));
+        }
     }
 }
